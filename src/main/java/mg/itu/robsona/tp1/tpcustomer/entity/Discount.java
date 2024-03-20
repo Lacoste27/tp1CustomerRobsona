@@ -6,24 +6,27 @@ package mg.itu.robsona.tp1.tpcustomer.entity;
 
 import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
  * @author yroist
  */
 @Entity
+@Table(name = "Discount", catalog = "customer", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Discount.findAll", query = "SELECT d FROM Discount d"),
@@ -36,11 +39,13 @@ public class Discount implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1)
+    @Column(name = "CODE")
     private String code;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "RATE")
     private BigDecimal rate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "discount")
-    private List<Customer> customerList;
+    private Collection<Customer> customerCollection;
 
     public Discount() {
     }
@@ -66,12 +71,12 @@ public class Discount implements Serializable {
     }
 
     @XmlTransient
-    public List<Customer> getCustomerList() {
-        return customerList;
+    public Collection<Customer> getCustomerCollection() {
+        return customerCollection;
     }
 
-    public void setCustomerList(List<Customer> customerList) {
-        this.customerList = customerList;
+    public void setCustomerCollection(Collection<Customer> customerCollection) {
+        this.customerCollection = customerCollection;
     }
 
     @Override

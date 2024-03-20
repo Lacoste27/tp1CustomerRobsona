@@ -18,14 +18,14 @@ import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 /**
  *
  * @author yroist
  */
 @Entity
-@Table(name = "Micro_Market")
+@Table(name = "Micro_Market", catalog = "customer", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "MicroMarket.findAll", query = "SELECT m FROM MicroMarket m"),
@@ -43,13 +43,14 @@ public class MicroMarket implements Serializable {
     @Column(name = "ZIP_CODE")
     private String zipCode;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "RADIUS")
     private Double radius;
     @Column(name = "AREA_LENGTH")
     private Double areaLength;
     @Column(name = "AREA_WIDTH")
     private Double areaWidth;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "zip")
-    private List<Customer> customerList;
+    private Collection<Customer> customerCollection;
 
     public MicroMarket() {
     }
@@ -91,12 +92,12 @@ public class MicroMarket implements Serializable {
     }
 
     @XmlTransient
-    public List<Customer> getCustomerList() {
-        return customerList;
+    public Collection<Customer> getCustomerCollection() {
+        return customerCollection;
     }
 
-    public void setCustomerList(List<Customer> customerList) {
-        this.customerList = customerList;
+    public void setCustomerCollection(Collection<Customer> customerCollection) {
+        this.customerCollection = customerCollection;
     }
 
     @Override
